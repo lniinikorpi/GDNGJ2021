@@ -34,8 +34,11 @@ public class Player : MonoBehaviour
     {
         Vector2 v = value.Get<Vector2>();
         Vector3 pos = mainCamera.WorldToScreenPoint(transform.position);
-        Vector3 dir = new Vector3(v.x, v.y, 0) - new Vector3(pos.x, pos.y, 0);
-        Vector3 newDir = Vector3.RotateTowards(Vector3.forward, dir, 1, 0.0f);
-        transform.rotation = Quaternion.LookRotation(newDir);
+        Vector2 dir = v - (Vector2)pos;
+        dir = dir.normalized;
+
+        float angle = Vector2.SignedAngle(Vector2.up, dir);
+        Vector3 dirVec = new Vector3(0, 0, angle);
+        transform.localEulerAngles = dirVec;
     }
 }
