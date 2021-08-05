@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public Camera mainCamera;
     public Transform mainObject;
+    public GameObject projectile;
 
     Vector2 movement = new Vector2();
     int movementDelta = 100;
@@ -40,5 +41,12 @@ public class Player : MonoBehaviour
         float angle = Vector2.SignedAngle(Vector2.up, dir);
         Vector3 dirVec = new Vector3(0, 0, angle);
         transform.localEulerAngles = dirVec;
+    }
+
+    public void OnShoot()
+    {
+        GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
+        Projectile proj = p.GetComponentInChildren<Projectile>();
+        proj.dir = transform.up / 100;
     }
 }
