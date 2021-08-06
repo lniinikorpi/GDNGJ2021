@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public GameObject projectile;
 
     Vector2 movement = new Vector2();
-    int movementDelta = 100;
+    public float speed = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     {
         if (movement != new Vector2())
         {
-            mainObject.position += new Vector3(movement.x / movementDelta, movement.y / movementDelta, 0);
+            mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
         }
     }
 
@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     {
         GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
         Projectile proj = p.GetComponentInChildren<Projectile>();
-        proj.dir = transform.up / 100;
+        proj.dir = transform.up;
+        proj.speed = 1;
     }
 }

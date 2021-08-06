@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1509951192}
-  movementDelta: 100
+  speed: 2
   distance: 2
 --- !u!212 &160400837
 SpriteRenderer:
@@ -270,7 +270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 322330820}
   m_Layer: 0
-  m_Name: Object
+  m_Name: PlayerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -650,6 +650,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   mainObject: {fileID: 322330820}
   projectile: {fileID: 2846604101406252714, guid: 2349c8431b738c3458dd095866a62c04, type: 3}
+  speed: 10
 --- !u!1 &2025736890
 GameObject:
   m_ObjectHideFlags: 0

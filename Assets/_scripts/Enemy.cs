@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform player;
-    public int movementDelta;
+    public float speed = 2;
     public int distance;
     // Start is called before the first frame update
     void Start()
@@ -18,7 +18,8 @@ public class Enemy : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, player.position) < distance)
         {
-            transform.position += (player.position - transform.position) / movementDelta;
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, player.position, step);
         }
     }
 

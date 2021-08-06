@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public Transform parent;
     public Vector3 dir;
+    public float speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,7 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         transform.Rotate(new Vector3(0, 0, 1));
-        parent.Translate(dir);
+        parent.Translate(dir * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
