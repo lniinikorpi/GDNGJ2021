@@ -40,9 +40,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 move = movement * speed;
-        rigid.velocity = move;
-        // mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
+        Vector2 move = movement * speed * Time.deltaTime;
+        // rigid.velocity = move;
+        mainObject.position += new Vector3(move.x, move.y, 0);
     }
 
     public void OnMove(InputValue value)
