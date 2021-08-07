@@ -11,8 +11,11 @@ public class Player : MonoBehaviour
     public GameObject hitParticle;
     private AudioSource _audioSource;
 
-    Vector2 movement = new Vector2();
+    private bool isShooting = false;
+    private Vector2 movement = new Vector2();
     public float speed = 10;
+    public float weaponDelay = 0.1f;
+    private float nextShoot = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +25,21 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Rigidbody2D rigid = mainObject.GetComponent<Rigidbody2D>();
         if (movement != new Vector2())
         {
-            mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
+            Vector2 move = movement * speed * Time.deltaTime;
+            rigid.MovePosition(rigid.position + move);
+            // mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
+        }
+
+        if (isShooting && Time.time >= nextShoot)
+        {
+            nextShoot = Time.time + weaponDelay;
+            GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
+            Projectile proj = p.GetComponentInChildren<Projectile>();
+            proj.dir = transform.up;
+            proj.speed = 10;
         }
     }
 
@@ -45,12 +60,10 @@ public class Player : MonoBehaviour
         transform.localEulerAngles = dirVec;
     }
 
-    public void OnShoot()
+    public void OnShoot(InputValue value)
     {
-        GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
-        Projectile proj = p.GetComponentInChildren<Projectile>();
-        proj.dir = transform.up;
-        proj.speed = 1;
+        float v = value.Get<float>();
+        isShooting = v == 1 ? true : false;
     }
 
     public void TakeHit(int value)
