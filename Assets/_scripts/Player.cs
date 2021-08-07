@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private float _currentHealth;
     public float weaponDelay = 0.1f;
     private float nextShoot = 0;
+    private float eFrames = 0;
     Rigidbody2D rigid;
     // Start is called before the first frame update
     void Start()
@@ -76,6 +77,11 @@ public class Player : MonoBehaviour
     {
         _currentHealth -= value;
         UIManagerGame.instance.UpdateHealthSlider(_currentHealth/maxHealth);
+        if (Time.time < eFrames)
+        {
+            return;
+        }
+        eFrames = Time.time + 1;
         Instantiate(hitParticle, transform.position, Quaternion.identity);
         _audioSource.Play();
     }
