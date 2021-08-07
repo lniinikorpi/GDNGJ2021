@@ -20,9 +20,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Rigidbody2D rigid = mainObject.GetComponent<Rigidbody2D>();
         if (movement != new Vector2())
         {
-            mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
+            Vector2 move = movement * speed * Time.deltaTime;
+            rigid.MovePosition(rigid.position + move);
+            // mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
         }
     }
 
@@ -48,6 +51,6 @@ public class Player : MonoBehaviour
         GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
         Projectile proj = p.GetComponentInChildren<Projectile>();
         proj.dir = transform.up;
-        proj.speed = 1;
+        proj.speed = 10;
     }
 }
