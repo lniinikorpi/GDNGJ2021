@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
     public Transform mainObject;
     public GameObject projectile;
+    public float projectileSpeed = 10;
     public GameObject hitParticle;
     private AudioSource _audioSource;
 
@@ -33,7 +34,7 @@ public class Player : MonoBehaviour
             GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
             Projectile proj = p.GetComponentInChildren<Projectile>();
             proj.dir = transform.up;
-            proj.speed = 10;
+            proj.speed = projectileSpeed;
         }
     }
 
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour
     public void OnShoot(InputValue value)
     {
         float v = value.Get<float>();
-        isShooting = v == 1 ? true : false;
+        isShooting = v == 1;
     }
 
     public void TakeHit(int value)
