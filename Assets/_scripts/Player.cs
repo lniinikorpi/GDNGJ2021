@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     private bool isShooting = false;
     private Vector2 movement = new Vector2();
     public float speed = 10;
+    public float maxHealth = 10;
+    private float _currentHealth;
     public float weaponDelay = 0.1f;
     private float nextShoot = 0;
     Rigidbody2D rigid;
@@ -23,6 +25,8 @@ public class Player : MonoBehaviour
     {
         _audioSource = GetComponent<AudioSource>();
         rigid = mainObject.GetComponent<Rigidbody2D>();
+        _currentHealth = maxHealth;
+        UIManagerGame.instance.UpdateHealthSlider(_currentHealth / maxHealth);
     }
 
     // Update is called once per frame
@@ -70,6 +74,8 @@ public class Player : MonoBehaviour
 
     public void TakeHit(int value)
     {
+        _currentHealth -= value;
+        UIManagerGame.instance.UpdateHealthSlider(_currentHealth/maxHealth);
         Instantiate(hitParticle, transform.position, Quaternion.identity);
         _audioSource.Play();
     }

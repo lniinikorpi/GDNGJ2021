@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManagerGame : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class UIManagerGame : MonoBehaviour
     public GameObject pausePanel;
     public GameObject muteButton;
     public GameObject unMuteButton;
+    public Slider healthSlider;
     [HideInInspector]
     public bool isPaused = false;
 
@@ -63,5 +65,10 @@ public class UIManagerGame : MonoBehaviour
     public void UnMuteGame()
     {
         AudioListener.volume = 1;
+    }
+
+    public void UpdateHealthSlider(float value)
+    {
+        healthSlider.value = value;
     }
 }
