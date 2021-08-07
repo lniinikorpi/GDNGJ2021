@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
     public float projectileSpeed = 10;
     public GameObject hitParticle;
     private AudioSource _audioSource;
+    public AudioSource attackSource;
+    public AudioSource footStepSource;
+    public Transform bulletSpawn;
+    public Animator animator;
 
     private bool isShooting = false;
     private Vector2 movement = new Vector2();
@@ -33,10 +37,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (UIManagerGame.instance.isPaused)
+            return;
+
         if (isShooting && Time.time >= nextShoot)
         {
             nextShoot = Time.time + weaponDelay;
-            GameObject p = Instantiate(projectile, mainObject.position, new Quaternion());
+            GameObject p = Instantiate(projectile, bulletSpawn.position, new Quaternion());
+            attackSource.Play();
             Projectile proj = p.GetComponentInChildren<Projectile>();
             proj.dir = transform.up;
             proj.speed = projectileSpeed;
@@ -53,6 +61,14 @@ public class Player : MonoBehaviour
     public void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
+        if (movement != Vector2.zero)
+        {
+            animator.SetBool("walking", true);
+        }
+        else
+        {
+            animator.SetBool("walking", false);
+        }
     }
 
     public void OnMouseMove(InputValue value)
@@ -84,5 +100,15 @@ public class Player : MonoBehaviour
         eFrames = Time.time + 1;
         Instantiate(hitParticle, transform.position, Quaternion.identity);
         _audioSource.Play();
+    }
+
+    public void PlayFootsep()
+    {
+        footStepSource.Play();
+    }
+
+    public void OnPause()
+    {
+        UIManagerGame.instance.PauseGame();
     }
 }

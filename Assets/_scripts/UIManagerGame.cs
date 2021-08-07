@@ -27,10 +27,17 @@ public class UIManagerGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 0;
         pausePanel.SetActive(false);
-        muteButton.SetActive(true);
-        unMuteButton.SetActive(false);
+        if(AudioManager.instance.isMuted)
+        {
+            muteButton.SetActive(false);
+            unMuteButton.SetActive(true);
+        }
+        else
+        {
+            muteButton.SetActive(true);
+            unMuteButton.SetActive(false);
+        }
     }
 
     public void PauseGame()
@@ -59,12 +66,12 @@ public class UIManagerGame : MonoBehaviour
 
     public void MuteGame()
     {
-        AudioListener.volume = 0;
+        AudioManager.instance.Mute();
     }
 
     public void UnMuteGame()
     {
-        AudioListener.volume = 1;
+        AudioManager.instance.UnMute();
     }
 
     public void UpdateHealthSlider(float value)

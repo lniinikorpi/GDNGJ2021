@@ -36,8 +36,7 @@ public class UIManager : MonoBehaviour
 
     public void StartGame()
     {
-        Time.timeScale = 1;
-        mainPanel.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 
     public void QuitGame()
@@ -51,11 +50,11 @@ public class UIManager : MonoBehaviour
 
     public void MuteGame()
     {
-        AudioListener.volume = 0;
+        AudioManager.instance.Mute();
     }
 
     public void UnMuteGame()
     {
-        AudioListener.volume = 1;
+        AudioManager.instance.UnMute();
     }
 }
