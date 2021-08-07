@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManagerGame : MonoBehaviour
 {
-    public static UIManager instance = null;
-    public GameObject mainPanel;
+    public static UIManagerGame instance = null;
+    public GameObject pausePanel;
     public GameObject muteButton;
     public GameObject unMuteButton;
+    [HideInInspector]
+    public bool isPaused = false;
 
     private void Awake()
     {
@@ -23,21 +25,25 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mainPanel.SetActive(true);
+        Time.timeScale = 0;
+        pausePanel.SetActive(false);
         muteButton.SetActive(true);
         unMuteButton.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PauseGame()
     {
-        
-    }
-
-    public void StartGame()
-    {
-        Time.timeScale = 1;
-        mainPanel.SetActive(false);
+        isPaused = !isPaused;
+        if(isPaused)
+        {
+            Time.timeScale = 0;
+            pausePanel.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            pausePanel.SetActive(false);
+        }
     }
 
     public void QuitGame()
