@@ -28,7 +28,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        print("Hit!");
         Enemy enemy = collider.gameObject.GetComponent<Enemy>();
         if (enemy)
         {
@@ -38,7 +37,8 @@ public class Projectile : MonoBehaviour
         else
         {
             Player player = collider.gameObject.GetComponentInChildren<Player>();
-            if (!player)
+            Projectile proj = collider.gameObject.GetComponent<Projectile>();
+            if (!player && !proj)
             {
                 Destroy(parent.gameObject);
             }
