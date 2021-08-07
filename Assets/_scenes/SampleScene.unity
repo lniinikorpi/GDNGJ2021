@@ -898,7 +898,7 @@ MonoBehaviour:
   mainObject: {fileID: 322330820}
   projectile: {fileID: 2846604101406252714, guid: 2349c8431b738c3458dd095866a62c04, type: 3}
   hitParticle: {fileID: 0}
-  speed: 50
+  speed: 10
   weaponDelay: 0.1
 --- !u!82 &1509951194
 AudioSource:

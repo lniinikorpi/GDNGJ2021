@@ -16,23 +16,17 @@ public class Player : MonoBehaviour
     public float speed = 10;
     public float weaponDelay = 0.1f;
     private float nextShoot = 0;
+    Rigidbody2D rigid;
     // Start is called before the first frame update
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+        rigid = mainObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Rigidbody2D rigid = mainObject.GetComponent<Rigidbody2D>();
-        if (movement != new Vector2())
-        {
-            Vector2 move = movement * speed * Time.deltaTime;
-            rigid.MovePosition(rigid.position + move);
-            // mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
-        }
-
         if (isShooting && Time.time >= nextShoot)
         {
             nextShoot = Time.time + weaponDelay;
@@ -41,6 +35,13 @@ public class Player : MonoBehaviour
             proj.dir = transform.up;
             proj.speed = 10;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        Vector2 move = movement * speed;
+        rigid.velocity = move;
+        // mainObject.position += new Vector3(movement.x, movement.y, 0) * speed * Time.deltaTime;
     }
 
     public void OnMove(InputValue value)
