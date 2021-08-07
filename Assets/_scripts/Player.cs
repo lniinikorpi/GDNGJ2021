@@ -8,13 +8,15 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
     public Transform mainObject;
     public GameObject projectile;
+    public GameObject hitParticle;
+    private AudioSource _audioSource;
 
     Vector2 movement = new Vector2();
     public float speed = 10;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -52,5 +54,11 @@ public class Player : MonoBehaviour
         Projectile proj = p.GetComponentInChildren<Projectile>();
         proj.dir = transform.up;
         proj.speed = 10;
+    }
+
+    public void TakeHit(int value)
+    {
+        Instantiate(hitParticle, transform.position, Quaternion.identity);
+        _audioSource.Play();
     }
 }
