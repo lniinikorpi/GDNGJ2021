@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public Transform player;
+    private Transform player;
     public float speed = 2;
+    public int hp = 3;
     public int distance;
     public GameObject hitParticle;
     private AudioSource audioSource;
@@ -13,6 +14,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -22,14 +24,29 @@ public class Enemy : MonoBehaviour
         {
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, player.position, step);
+            Vector3 dir = player.position - transform.position;
+            dir = dir.normalized;
+
+            float angle = Vector2.SignedAngle(Vector2.up, dir);
+            Vector3 dirVec = new Vector3(0, 0, angle);
+            transform.localEulerAngles = dirVec;
         }
     }
 
-    public void OnKill(Vector3 bulletRot)
+    public void OnHit(Vector3 bulletRot)
     {
         SpawnHitParticle(bulletRot);
         audioSource.Play();
-        Destroy(gameObject);
+        hp -= 1;
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            // Knockback
+            transform.position += bulletRot;
+        }
     }
 
     void SpawnHitParticle(Vector3 rotation)
@@ -38,4 +55,13 @@ public class Enemy : MonoBehaviour
         float angle = Vector2.SignedAngle(Vector2.up, rotation);
         obj.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        Player player = collision.gameObject.GetComponentInChildren<Player>();
+        if (player)
+        {
+            player.TakeHit(1);
+        }
+    }
+
 }

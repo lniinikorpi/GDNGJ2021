@@ -31,7 +31,7 @@ public class Projectile : MonoBehaviour
         Enemy enemy = collider.gameObject.GetComponent<Enemy>();
         if (enemy)
         {
-            enemy.OnKill(dir);
+            enemy.OnHit(dir);
             Destroy(parent.gameObject);
         }
         else
