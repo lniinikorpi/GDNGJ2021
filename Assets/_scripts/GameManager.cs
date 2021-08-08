@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    public bool isAlive = true;
 
     private void Awake()
     {
@@ -37,6 +38,25 @@ public class GameManager : MonoBehaviour
     public void EndLevel()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+    }
+
+    public void PlayerDie()
+    {
+        isAlive = false;
+        UIManagerGame.instance.diePanel.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        EnemySpawner.instance.enemySpawns.Clear();
+        EnemySpawner.instance.openGates.Clear();
+        EndLevel();
+    }
+
+    public void GameComplete()
+    {
+        UIManagerGame.instance.completeGamePanel.SetActive(true);
+        isAlive = false;
     }
 
 }

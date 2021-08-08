@@ -24,12 +24,10 @@ public class Player : MonoBehaviour
     public float weaponDelay = 0.1f;
     private float nextShoot = 0;
     private float eFrames = 0;
-    Rigidbody2D rigid;
-    // Start is called before the first frame update
+
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
-        rigid = mainObject.GetComponent<Rigidbody2D>();
         _currentHealth = maxHealth;
         UIManagerGame.instance.UpdateHealthSlider(_currentHealth / maxHealth);
     }
@@ -37,7 +35,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (UIManagerGame.instance.isPaused)
+        if (UIManagerGame.instance.isPaused || !GameManager.instance.isAlive)
             return;
 
         if (isShooting && Time.time >= nextShoot)
@@ -53,6 +51,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.instance.isAlive)
+            return;
+
         Vector2 move = movement * speed * Time.deltaTime;
         // rigid.velocity = move;
         mainObject.position += new Vector3(move.x, move.y, 0);
@@ -91,12 +92,17 @@ public class Player : MonoBehaviour
 
     public void TakeHit(int value)
     {
-        _currentHealth -= value;
-        UIManagerGame.instance.UpdateHealthSlider(_currentHealth/maxHealth);
         if (Time.time < eFrames)
         {
             return;
         }
+        _currentHealth -= value;
+        if(_currentHealth <= 0)
+        {
+            _currentHealth = 0;
+            Die();
+        }
+        UIManagerGame.instance.UpdateHealthSlider(_currentHealth/maxHealth);
         eFrames = Time.time + 1;
         Instantiate(hitParticle, transform.position, Quaternion.identity);
         _audioSource.Play();
@@ -110,5 +116,10 @@ public class Player : MonoBehaviour
     public void OnPause()
     {
         UIManagerGame.instance.PauseGame();
+    }
+
+    void Die()
+    {
+        GameManager.instance.PlayerDie();
     }
 }

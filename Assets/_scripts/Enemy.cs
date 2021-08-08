@@ -20,6 +20,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.instance.isAlive)
+            return;
+
         if (Vector3.Distance(transform.position, player.position) < distance)
         {
             float step = speed * Time.deltaTime;

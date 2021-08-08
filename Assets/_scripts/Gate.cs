@@ -8,6 +8,7 @@ public class Gate : MonoBehaviour
     public GameObject openedGate;
     bool _isOpen = false;
     public BoxCollider2D _boxCollider2D;
+    public bool finalGate;
 
     public void OpenAgain()
     {
@@ -36,8 +37,16 @@ public class Gate : MonoBehaviour
         Player player = collision.gameObject.GetComponentInChildren<Player>();
         if (player)
         {
-            Open();
-            GameManager.instance.EndLevel();
+            if(finalGate)
+            {
+                GameManager.instance.GameComplete();
+            }
+            
+            else
+            {
+                Open();
+                GameManager.instance.EndLevel();
+            }
         }
     }
 }

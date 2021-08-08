@@ -9,6 +9,8 @@ public class UIManagerGame : MonoBehaviour
     public GameObject pausePanel;
     public GameObject muteButton;
     public GameObject unMuteButton;
+    public GameObject diePanel;
+    public GameObject completeGamePanel;
     public Slider healthSlider;
     [HideInInspector]
     public bool isPaused = false;
@@ -28,6 +30,8 @@ public class UIManagerGame : MonoBehaviour
     void Start()
     {
         pausePanel.SetActive(false);
+        diePanel.SetActive(false);
+        completeGamePanel.SetActive(false);
         if(AudioManager.instance.isMuted)
         {
             muteButton.SetActive(false);
@@ -77,5 +81,10 @@ public class UIManagerGame : MonoBehaviour
     public void UpdateHealthSlider(float value)
     {
         healthSlider.value = value;
+    }
+
+    public void RestartGame()
+    {
+        GameManager.instance.RestartGame();
     }
 }
