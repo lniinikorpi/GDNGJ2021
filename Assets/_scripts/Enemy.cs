@@ -40,12 +40,13 @@ public class Enemy : MonoBehaviour
         hp -= 1;
         if (hp <= 0)
         {
+            EnemySpawner.instance.enemySpawns.Add(transform.position);
             Destroy(gameObject);
         }
         else
         {
             // Knockback
-            transform.position += bulletRot;
+            transform.position += bulletRot.normalized / 5;
         }
     }
 

@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
+    public GameObject closedGate;
     public GameObject openedGate;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    bool _isOpen = false;
+    public BoxCollider2D _boxCollider2D;
 
-    // Update is called once per frame
-    void Update()
+    public void OpenAgain()
     {
-        
+        SetObjects();
     }
 
     private void Open()
     {
-        Instantiate(openedGate, transform.position, transform.rotation);
-        Destroy(gameObject);
+        if (!_isOpen)
+        {
+            EnemySpawner.instance.openGates.Add(gameObject.name);
+            SetObjects();
+        }
+    }
+
+    private void SetObjects()
+    {
+        _isOpen = true;
+        closedGate.SetActive(false);
+        openedGate.SetActive(true);
+        _boxCollider2D.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,6 +37,7 @@ public class Gate : MonoBehaviour
         if (player)
         {
             Open();
+            GameManager.instance.EndLevel();
         }
     }
 }
